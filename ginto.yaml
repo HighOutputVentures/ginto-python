@@ -1,0 +1,19 @@
+version: 0.1
+name: Python
+description: Python webservice automatic deployment via Github.
+image: logo.jpg
+resources:
+  - name: main
+    type: container
+    size:
+      minimum: nano
+      default: nano
+    platform: node
+    build: rm -rf ./node && git clone {{ repository.url }} ./node --branch {{ repository.branch }} --depth 1 && cd ./node && {{ build }}
+    start: cd ./node && {{ start }}
+    https: true
+inputs:
+  - name: repository
+    label: Github Repository
+    type: github
+    required: true
